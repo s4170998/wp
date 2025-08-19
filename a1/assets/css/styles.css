@@ -1,0 +1,40 @@
+/* =====================
+   GENERAL STYLES
+===================== */
+body {
+  font-family: 'Ysabeau SC', sans-serif; /* main font */
+  background-color: #fff5f8;             /* light pink background */
+  color: #333333;                        /* dark grey text */
+  margin: 0;
+  padding: 0;
+}
+
+/* Headings use a different font */
+h1, h2, h3, h4, h5 {
+  font-family: 'Libre Baskerville', serif;
+  color: #6b5b95; /* purple */
+}
+
+/* =====================
+   NAVBAR
+===================== */
+.navbar {
+  background-color: #cd4f07 !important; /* orange */
+}
+
+/* Make the active link stand out */
+.nav-link.active {
+  background-color: #f6978e;
+  border-radius: 5px;
+  color: white !important;
+}
+
+/* =====================
+   FOOTER
+===================== */
+footer {
+  background-color: #333333; /* dark grey */
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
