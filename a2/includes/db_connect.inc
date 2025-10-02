@@ -1,6 +1,6 @@
-$host = 'localhost';
+$host = 'talsprddb02.int.its.rmit.edu.au';
 $user = 's4170998';           
-$pass = 'Hirudi-269';
+$pass = 'HiruSID-369';
 $db   = 's4170998';
 
 $mysqli = new mysqli($host, $user, $pass, $db);
