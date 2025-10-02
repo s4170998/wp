@@ -1,3 +1,4 @@
-<?php include __DIR__ . '/includes/header.inc'; ?>
-<h1>Skills</h1>
-<?php include __DIR__ . '/includes/footer.inc'; ?>
+<?php require __DIR__ . '/includes/header.inc'; ?>
+<h2>Skills</h2>
+<p>skills here(will put later).</p>
+<?php require __DIR__ . '/includes/footer.inc'; ?>

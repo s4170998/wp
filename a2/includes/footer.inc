@@ -1,8 +1,6 @@
 </main>
-<footer>
-  <hr>
-  <p>&copy; <?php echo date('Y'); ?> Sadev Wijesinghe</p>
+<footer class="site-footer">
+  <p>&copy; <?php echo date('Y'); ?> SkillSwap</p>
 </footer>
-<script src="assets/js/app.js"></script>
 </body>
 </html>
