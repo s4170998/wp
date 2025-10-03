@@ -1,50 +1,63 @@
 <?php require __DIR__ . '/includes/header.inc'; ?>
-<?php require __DIR__ . '/includes/db_connect.inc'; ?>
 
-<h2>Add a Skill</h2>
+<h2 class="mb-4">Add a Skill</h2>
 
-<?php if (isset($_GET['err'])): ?>
-  <div class="alert alert-danger"><?= htmlspecialchars($_GET['err']) ?></div>
-<?php endif; ?>
+<form class="needs-validation" action="process_add.php" method="post" enctype="multipart/form-data" novalidate>
+  <div class="row g-3">
+    <div class="col-lg-6">
+    <label class="form-label" for="title">Title *</label>
+    <input required class="form-control" id="title" name="title" placeholder="Enter skill title">
+    <div class="invalid-feedback">Please enter a title.</div>
+    </div>
 
-<form action="process_add.php" method="post" enctype="multipart/form-data" class="mb-4">
-  <div class="mb-3">
-    <label class="form-label">Title *</label>
-    <input type="text" name="title" class="form-control" required>
+    <div class="col-lg-6">
+      <label class="form-label" for="category">Category *</label>
+      <input required class="form-control" id="category" name="category" placeholder="Enter category">
+      <div class="invalid-feedback">Please enter a category.</div>
+    </div>
+
+    <div class="col-12">
+      <label class="form-label" for="description">Description *</label>
+      <textarea required class="form-control" id="description" name="description" rows="5" placeholder="Describe the skill"></textarea>
+      <div class="invalid-feedback">Please enter a description.</div>
+    </div>
+
+    <div class="col-lg-4">
+      <label class="form-label" for="rate">Rate per hour ($) *</label>
+      <input required class="form-control" id="rate" name="rate" type="number" step="0.01" min="0" placeholder="e.g. 25.00">
+      <div class="invalid-feedback">Please enter a valid rate.</div>
+    </div>
+
+    <div class="col-lg-4">
+      <label class="form-label" for="level">Level *</label>
+      <select required class="form-select" id="level" name="level">
+        <option value="">Please select</option>
+        <option>Beginner</option>
+        <option>Intermediate</option>
+        <option>Expert</option>
+      </select>
+      <div class="invalid-feedback">Please select a level.</div>
+    </div>
+
+    <div class="col-lg-4">
+      <label class="form-label" for="image">Skill image *</label>
+      <input required
+             class="form-control"
+             id="image"
+             name="image"
+             type="file"
+             accept=".jpg,.jpeg,.png,.gif,.webp"
+             data-allowed="jpg,jpeg,png,gif,webp">
+      <div class="invalid-feedback">Only JPG, JPEG, PNG, GIF or WEBP files up to 4MB are allowed.</div>
+      <div class="form-text">Images are saved under <code>assets/images/skills/</code></div>
+    </div>
+
+    <div class="col-12">
+    <button type="submit" class="btn btn-brand mt-2">Submit</button>
+    </div>
   </div>
-
-  <div class="mb-3">
-    <label class="form-label">Description *</label>
-    <textarea name="description" rows="5" class="form-control" required></textarea>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">Category *</label>
-    <input type="text" name="category" class="form-control" required>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">Rate per hour ($) *</label>
-    <input type="number" step="0.01" name="rate_per_hr" class="form-control" required>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">Level *</label>
-    <select name="level" class="form-select" required>
-      <option value="">Please select</option>
-      <option>Beginner</option>
-      <option>Intermediate</option>
-      <option>Expert</option>
-    </select>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">Skill image *</label>
-    <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp" class="form-control" required>
-    <div class="form-text">Images are saved under assets/images/skills/</div>
-  </div>
-
-  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <?php require __DIR__ . '/includes/footer.inc'; ?>
+
+

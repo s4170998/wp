@@ -1,55 +1,41 @@
 <?php
 require __DIR__ . '/includes/db_connect.inc';
 
-function fail($msg){
-  header("Location: add.php?err=" . urlencode($msg));
-  exit;
-}
+$required = ['title','description','category','rate','level'];
+foreach ($required as $f) { if (!isset($_POST[$f]) || $_POST[$f]==='') { exit('Missing required field'); } }
 
-$title = trim($_POST['title'] ?? '');
-$description = trim($_POST['description'] ?? '');
-$category = trim($_POST['category'] ?? '');
-$rate = trim($_POST['rate_per_hr'] ?? '');
-$level = trim($_POST['level'] ?? '');
+$title = trim($_POST['title']);
+$description = trim($_POST['description']);
+$category = trim($_POST['category']);
+$rate = (float)$_POST['rate'];
+$level = trim($_POST['level']);
 
-if ($title==='' || $description==='' || $category==='' || $rate==='' || $level==='') {
-  fail('All fields are required.');
-}
-
-if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-  fail('Image upload failed.');
-}
+if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) { exit('Image upload failed.'); }
 
 $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-$allowed = ['jpg','jpeg','png','gif','webp','ico'];
-if (!in_array($ext, $allowed)) {
-  fail('Invalid image type.');
-}
+$allowed = ['jpg','jpeg','png','gif','webp'];
+if (!in_array($ext, $allowed, true)) { exit('Invalid image type.'); }
 
+$base = preg_replace('/[^a-z0-9]+/i','-', strtolower($title));
+$filename = $base . '-' . time() . '.' . $ext;
 
-$dir = __DIR__ . '/assets/images/skills';
-if (!is_dir($dir)) {
-  mkdir($dir, 0777, true);
-}
+$targetDir = __DIR__ . '/assets/images/skills';
+if (!is_dir($targetDir)) { mkdir($targetDir, 0777, true); }
 
-$basename = bin2hex(random_bytes(8)) . '.' . $ext;
-$dest_abs = $dir . '/' . $basename;
-$dest_rel = 'assets/images/skills/' . $basename;
+$dest = $targetDir . '/' . $filename;
+if (!move_uploaded_file($_FILES['image']['tmp_name'], $dest)) { exit('Failed to save uploaded file.'); }
 
-if (!move_uploaded_file($_FILES['image']['tmp_name'], $dest_abs)) {
-  fail('Could not save file.');
-}
+$relPath = 'assets/images/skills/' . $filename;
 
-
-$skill_id = 'S' . time();
-
-$stmt = $mysqli->prepare("
-  INSERT INTO skills (skill_id, title, description, category, image_path, rate_per_hr, level, created_at)
-  VALUES (?,?,?,?,?,?,?, NOW())
-");
-$stmt->bind_param("sssssss", $skill_id, $title, $description, $category, $dest_rel, $rate, $level);
+$sql = "INSERT INTO skills (title, description, category, rate_per_hr, level, image_path) VALUES (?, ?, ?, ?, ?, ?)";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("sss dss", $title, $description, $category, $rate, $level, $relPath);
 $stmt->execute();
+$newId = $stmt->insert_id;
+$stmt->close();
 
-
-header("Location: details.php?skill_id=" . urlencode($skill_id));
+header('Location: details.php?id='.(int)$newId);
 exit;
+
+
+
