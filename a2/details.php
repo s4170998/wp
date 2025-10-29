@@ -1,9 +1,15 @@
+<?php
+if (!isset($_GET['id'])) {
+  header("Location:skills.php");
+  exit();
+}
+?>
 <?php require __DIR__ . '/includes/header.inc'; ?>
 <?php require __DIR__ . '/includes/db_connect.inc'; ?>
 
 <?php
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$stmt = $mysqli->prepare("SELECT id,name,description,category,rate,level,image FROM skills WHERE id=?");
+$id = (int)$_GET['id']  ;
+$stmt = $mysqli->prepare("SELECT skill_id,title,description,category,rate_per_hr,level, created_at, image_path FROM skills WHERE id=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $res = $stmt->get_result();
