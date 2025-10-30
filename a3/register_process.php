@@ -8,28 +8,31 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   exit;
 }
 
-$username = $_POST['username'] ?? '';
+$username = trim($_POST['username'] ?? '');
+$email    = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-if (!$username || !$password) {
+if ($username === '' || $email === '' || $password === '') {
   $_SESSION['error'] = "Please fill in all fields.";
   header("Location: register.php");
   exit;
 }
 
-$stmt = $conn->prepare("SELECT user_id FROM users WHERE username = ?");
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$result = $stmt->get_result();
+$hash = password_hash($password, PASSWORD_DEFAULT);
 
-if ($result->num_rows > 0) {
-  $_SESSION['error'] = "Username already taken.";
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE username = ? OR email = ?");
+$stmt->bind_param("ss", $username, $email);
+$stmt->execute();
+$exists = $stmt->get_result()->fetch_assoc();
+
+if ($exists) {
+  $_SESSION['error'] = "Username or email already exists.";
   header("Location: register.php");
   exit;
 }
 
-$stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-$stmt->bind_param("ss", $username, $password);
+$stmt = $conn->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $username, $email, $hash);
 
 if ($stmt->execute()) {
   $_SESSION['message'] = "Account created successfully. Please log in.";
@@ -40,4 +43,4 @@ if ($stmt->execute()) {
   header("Location: register.php");
   exit;
 }
-?>
+
