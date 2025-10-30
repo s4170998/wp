@@ -1,12 +1,13 @@
-<footer class="text-center text-white py-3 mt-5" style="background: linear-gradient(to right, #cd4f07, #f6978e);">
-  <div class="mb-1">
-    <a href="#" class="text-white text-decoration-none mx-2">Alice</a>
-    <a href="#" class="text-white text-decoration-none mx-2">Bob</a>
-    <a href="#" class="text-white text-decoration-none mx-2">Carol</a>
-    <a href="#" class="text-white text-decoration-none mx-2">Dave</a>
-    <a href="#" class="text-white text-decoration-none mx-2">Eve</a>
+<footer class="site-footer text-center text-white">
+  <div class="mb-2">
+    <span class="footer-link">SkillSwap</span>
+    <span class="footer-link mx-2">Learn & Share Skills</span>
+    <span class="footer-link">Connect & Grow</span>
   </div>
-  <div>&copy; 2025 SkillSwap. All rights reserved.</div>
+  <div>&copy; 2025 SkillSwap</div>
+  <div class="footer-divider"></div>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
