@@ -9,8 +9,7 @@ if (strstr($_SERVER['SERVER_NAME'], 'localhost')) {
 } else {
   $servername = "talsprddb02.int.its.rmit.edu.au";
   $username   = "s4170998";
-  include($_SERVER['HOME'] . "/public_html/.htdb_pass"); 
-  if (!isset($password) && isset($dbpassword)) { $password = $dbpassword; } 
+  $password = "HiruSID-369"; 
   $dbname     = "s4170998";
 }
 
